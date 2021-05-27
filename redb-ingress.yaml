@@ -7,7 +7,7 @@ metadata:
     nginx.ingress.kubernetes.io/ssl-passthrough: "true"
 spec:
   rules:
-  - host: redis-11338.demo.rec.34.127.23.12.nip.io
+  - host: redis-<redis-enterprise-database-port>.demo.rec.<ingress-external-ip>.nip.io
     http:
       paths:
       - path: /
@@ -16,4 +16,4 @@ spec:
           service:
             name: redis-enterprise-database
             port:
-              number: 11338
+              number: <redis-enterprise-database-port>

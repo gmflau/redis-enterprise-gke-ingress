@@ -7,7 +7,7 @@ metadata:
     nginx.ingress.kubernetes.io/ssl-passthrough: "true"
 spec:
   rules:
-  - host: rec.34.127.23.12.nip.io
+  - host: rec.<ingress-external-ip>.nip.io
     http:
       paths:
       - path: /
