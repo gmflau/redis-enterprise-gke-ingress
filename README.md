@@ -53,7 +53,7 @@ kubectl get service/ingress-nginx-controller -n ingress-nginx \
 
 
 #### 6. Create an Ingress resource for the Redis Enterprise cluster for web UI access
-Replace <ingress-external-ip> with external IP of the Nginx ingress controller from step 5 in rec-ingress.yaml. Then run:
+Replace &lt;ingress-external-ip&gt; with external IP of the Nginx ingress controller from step 5 in rec-ingress.yaml. Then run:
 ```
 kubectl apply -f rec-ingress.yaml -n redis
 ```
@@ -74,7 +74,7 @@ https://rec.34.82.246.32.nip.io:443
 ```
 openssl genrsa -out client.key 2048
 ```
-When running the following command, just hit ENTER for every question except to enter *.rec.<ingress-external-ip>.nip.io for Common Name`:
+When running the following command, just hit ENTER for every question except to enter *.rec.&lt;ingress-external-ip&gt;.nip.io for Common Name`:
 ```
 openssl req -new -x509 -key client.key -out client.cert -days 1826
 ```
@@ -90,8 +90,8 @@ more proxy_cert.pem
 
 
 #### 8. Create an Ingress resource for external traffic going into the Redis Enterprise database
-Replace <ingress-external-ip> with external IP of the Nginx ingress controller from step 5 in redb-ingress.yaml.
-Replace <redis-enterprise-database-port> with the Redis Enterprise database's listening port in redb-ingress.yaml.
+Replace &lt;ingress-external-ip&gt; with external IP of the Nginx ingress controller from step 5 in redb-ingress.yaml.
+Replace &lt;redis-enterprise-database-port&gt; with the Redis Enterprise database's listening port in redb-ingress.yaml.
 Then run the following: 
 ```
 kubectl apply -f redb-ingress.yaml -n redis
