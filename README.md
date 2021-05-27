@@ -81,7 +81,7 @@ openssl req -new -x509 -key client.key -out client.cert -days 1826
 Copy and paste the content of client.cert file and upload it as SSL certificate for TLS communication as follows:
 ![TLS 01](./img/tls_01.png)
 ![TLS 02](./img/tls_02.png)
-Copy the content of proxy_cert.pem from one of the REC pod to your machine running **openssl** command later:
+Copy the content of proxy_cert.pem from one of the REC pods to your machine running **openssl** command later:
 ```
 kubectl exec -it rec-0 -c redis-enterprise-node -n redis -- /bin/bash
 cd /etc/opt/redislabs
