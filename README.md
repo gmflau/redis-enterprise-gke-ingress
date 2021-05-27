@@ -78,8 +78,8 @@ When running the following command, just hit ENTER for every question except to 
 openssl req -new -x509 -key client.key -out client.cert -days 1826
 ```
 Copy and paste the content of client.cert file and upload it as SSL certificate for TLS communication as follows:
-[TLS 01](./img/tls_01.png)
-[TLS 02](./img/tls_02.png)
+![TLS 01](./img/tls_01.png)
+![TLS 02](./img/tls_02.png)
 Copy the content of proxy_cert.pem from one of the REC pod to your machine running **openssl** command later:
 ```
 kubectl exec -it rec-0 -c redis-enterprise-node -n redis -- /bin/bash
@@ -112,11 +112,11 @@ For example,
 openssl s_client -connect redis-11338.demo.rec.34.127.23.12.nip.io:443 -key client.key -cert client.cert -CAfile ./proxy_cert.pem -servername redis-11338.demo.rec.34.127.23.12.nip.io
 ``` 
 You should see a similar output as follows:
-[openssl auth](./img/openssl_auth.png)
+![openssl auth](./img/openssl_auth.png)
 Replace the <redis-enterprise-database-password> with your Redis Enterprise database instance's password. Make sure there is a space after the password on MacOS. See below:
-[openssl auth](./img/openssl_auth.png)
+![openssl auth](./img/openssl_auth.png)
 Send a **PING** command by entering PING followed by a blank spacei before hitting the **RETURN** button:
-[openssl ping](./img/openssl_auth_ping.png)
+![openssl ping](./img/openssl_auth_ping.png)
 
 
 #### 10. Connect to the Redis Enterprise database over SSL/TLS via a Python program
@@ -128,4 +128,4 @@ For example,
 python test.py 34.83.49.103 16667 QUhZiDXB 
 ```
 It should produce output about the Redis Enterprise database's information as follows:
-[bdb info output](./img/test-py.png)
+![bdb info output](./img/test-py.png)
