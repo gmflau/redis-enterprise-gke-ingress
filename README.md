@@ -111,7 +111,7 @@ openssl s_client -connect redis-<redis-enterprise-database-port>.demo.rec.<ingre
 For example,
 openssl s_client -connect redis-11338.demo.rec.34.127.23.12.nip.io:443 -key client.key -cert client.cert -CAfile ./proxy_cert.pem -servername redis-11338.demo.rec.34.127.23.12.nip.io
 ``` 
-You should see a similar output as follows. Replace the r&lt;edis-enterprise-database-password&glt; with your Redis Enterprise database instance's password. Make sure there is a space after the password on MacOS. See below:
+You should see a similar output as follows. Replace the &lt;redis-enterprise-database-password&gt; with your Redis Enterprise database instance's password. Make sure there is a space after the password on MacOS. See below:
 ![openssl auth](./img/openssl_auth.png)
 Send a **PING** command by entering PING followed by a blank space before hitting the **RETURN** button:
 ![openssl ping](./img/openssl_auth_ping.png)
