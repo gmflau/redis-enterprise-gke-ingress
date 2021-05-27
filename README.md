@@ -47,7 +47,8 @@ kubectl apply -f nginx-ingress-controller.yaml
 ```
 Grab the external IP of the Nginx ingress controller for later use:
 ```
-kubectl get service/ingress-nginx-controller -n ingress-nginx -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+kubectl get service/ingress-nginx-controller -n ingress-nginx \
+-o jsonpath='{.status.loadBalancer.ingress[0].ip}'
 ```
 
 
@@ -106,10 +107,14 @@ redb-redis-enterprise-database  -o json \
 ```
 Run the following to open a SSL session:
 ```
-openssl s_client -connect redis-<redis-enterprise-database-port>.demo.rec.<ingress-external-ip>.nip.io:443 -key client.key -cert client.cert -CAfile ./proxy_cert.pem -servername redis-<redis-enterprise-database-port>.demo.rec.<ingress-external-ip>.nip.io
+openssl s_client -connect redis-<redis-enterprise-database-port>.demo.rec.<ingress-external-ip>.nip.io:443 \
+-key client.key -cert client.cert -CAfile ./proxy_cert.pem \
+-servername redis-<redis-enterprise-database-port>.demo.rec.<ingress-external-ip>.nip.io
 
 For example,
-openssl s_client -connect redis-11338.demo.rec.34.127.23.12.nip.io:443 -key client.key -cert client.cert -CAfile ./proxy_cert.pem -servername redis-11338.demo.rec.34.127.23.12.nip.io
+openssl s_client -connect redis-11338.demo.rec.34.127.23.12.nip.io:443 \
+-key client.key -cert client.cert -CAfile ./proxy_cert.pem \
+-servername redis-11338.demo.rec.34.127.23.12.nip.io
 ``` 
 You should see a similar output as follows. Replace &lt;redis-enterprise-database-password&gt; with your Redis Enterprise database instance's password. Make sure there is a space after the password on MacOS. See below:
 ![openssl auth](./img/openssl_auth.png)
