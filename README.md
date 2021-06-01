@@ -5,10 +5,10 @@ The following is the high level workflow which you will follow:
 1. Create a GKE cluster
 2. Create a namespace for this deployment and deploy the Redis Enterprise Operator bundle
 3. Deploy a Redis Enterprise Cluster (REC)
-4. Create a Redis Enterprise database instance with SSL/TLS enabled
-5. Deploy Nginx ingress controller
-6. Create an Ingress resource for the Redis Enterprise cluster for web UI access
-7. Generate and upload a SSL certificate for the Redis Enterprise database
+4. Deploy Nginx ingress controller
+5. Generate a SSL certificate for the Redis Enterprise database
+6. Create a Redis Enterprise database instance with SSL/TLS enabled
+7. Create an Ingress resource for the Redis Enterprise cluster for web UI access
 8. Create an Ingress resource for external traffic going into the Redis Enterprise database
 9. Verify SSL/TLS connection using openssl
 10. Connect to the Redis Enterprise database over SSL/TLS via a Python program
@@ -35,13 +35,7 @@ kubectl apply -f rec.yaml -n redis
 ```
 
 
-#### 4. Create a Redis Enterprise database instance with SSL/TLS enabled
-```
-kubectl apply -f redb.yaml -n redis
-```
-
-
-#### 5. Deploy Nginx ingress controller
+#### 4. Deploy Nginx ingress controller
 ```
 kubectl apply -f nginx-ingress-controller.yaml
 ```
@@ -52,7 +46,35 @@ kubectl get service/ingress-nginx-controller -n ingress-nginx \
 ```
 
 
-#### 6. Create an Ingress resource for the Redis Enterprise cluster for web UI access
+#### 5. Generate a SSL certificate for the Redis Enterprise database
+```
+openssl genrsa -out client.key 2048
+```
+When running the following command, just hit ENTER for every question except to enter *.rec.&lt;ingress-external-ip&gt;.nip.io for Common Name`:
+```
+openssl req -new -x509 -key client.key -out client.cert -days 1826
+```
+Copy the content of proxy_cert.pem from one of the REC pods to your machine running **openssl** command later:
+```
+kubectl exec -it rec-0 -c redis-enterprise-node -n redis -- /bin/bash
+cd /etc/opt/redislabs
+more proxy_cert.pem
+```
+
+
+#### 6. Create a Redis Enterprise database instance with SSL/TLS enabled
+Generate a K8 secret for the SSL/TLS certificate:
+```
+cp client.cert cert
+kubectl create secret generic client-auth-secret-redb --from-file=./cert -n redis
+```
+Deploy a Redis Enterprise database:
+```
+kubectl apply -f redb.yaml -n redis
+```
+
+
+#### 7. Create an Ingress resource for the Redis Enterprise cluster for web UI access
 Replace &lt;ingress-external-ip&gt; with external IP of the Nginx ingress controller from step 5 in rec-ingress.yaml. Then run:
 ```
 kubectl apply -f rec-ingress.yaml -n redis
@@ -68,25 +90,8 @@ https://rec.<ingress-external-ip>.nip.io:443
 For example:
 https://rec.34.82.246.32.nip.io:443
 ```
+Log in using demo@redislabs.com and the password collected above to view the cluster information in CM.
 
-
-#### 7. Generate and upload a SSL certificate for the Redis Enterprise database
-```
-openssl genrsa -out client.key 2048
-```
-When running the following command, just hit ENTER for every question except to enter *.rec.&lt;ingress-external-ip&gt;.nip.io for Common Name`:
-```
-openssl req -new -x509 -key client.key -out client.cert -days 1826
-```
-Copy and paste the content of client.cert file and upload it as SSL certificate for TLS communication as follows:
-![TLS 01](./img/tls_01.png)
-![TLS 02](./img/tls_02.png)
-Copy the content of proxy_cert.pem from one of the REC pods to your machine running **openssl** command later:
-```
-kubectl exec -it rec-0 -c redis-enterprise-node -n redis -- /bin/bash
-cd /etc/opt/redislabs
-more proxy_cert.pem
-```
 
 
 #### 8. Create an Ingress resource for external traffic going into the Redis Enterprise database

@@ -5,3 +5,5 @@ metadata:
 spec:
   memorySize: 100MB
   tlsMode: enabled 
+  clientAuthenticationCertificates:
+  - client-auth-secret-redb
