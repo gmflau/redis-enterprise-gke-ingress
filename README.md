@@ -1,4 +1,4 @@
-# Accessing a Redis Enterprise database from outside a GKE cluster
+# Accessing a Redis Enterprise database from outside a GKE cluster (Using Nginx)
 
 ## High Level Workflow
 The following is the high level workflow which you will follow:
