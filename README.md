@@ -25,7 +25,7 @@ The following is the high level workflow which you will follow:
 kubectl create namespace redis
 kubectl config set-context --current --namespace=redis
 
-./bundle.sh
+kubectl apply -f https://raw.githubusercontent.com/RedisLabs/redis-enterprise-k8s-docs/v6.0.20-4/bundle.yaml
 ```
 
 
